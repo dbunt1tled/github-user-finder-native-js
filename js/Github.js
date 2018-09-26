@@ -22,16 +22,14 @@ class Github {
                 .catch(error => reject(error));
         });
     }
-    getCommentsById(id) {
+    getRepos(name) {
         return new Promise ((resolve, reject) => {
-            fetch(`https://jsonplaceholder.typicode.com/posts/${id}/comments`,{
-                method: 'GET',
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
+            fetch(`${this.baseUrl}/users/${name}/repos${this.addParams}per_page=${'5'}&sort=${'created:asc'}`,{
+                //method: 'GET', // on default
+                headers: this.headers,
             })
                 .then(response => response.json())
-                .then(comments => resolve(comments))
+                .then(repo => resolve(repo))
                 .catch(error => reject(error));
         });
     }

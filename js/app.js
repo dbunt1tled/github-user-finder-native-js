@@ -11,15 +11,23 @@ searchInput.addEventListener('keyup', e => {
     }
     githubService.getUser(searchText)
         .then(user => {
-            console.log(user);
             if(user.message === 'Not Found') {
                 console.info('User Not Found');
                 uiService.showAlert(`User ${searchText} Not Found`, ['alert', 'alert-danger']);
+                uiService.clearProfile();
                 return false;
             }
+            uiService.clearAlert();
             uiService.showProfile(user);
+            return user.login;
+        })
+        //.then(githubService.getRepos.bind(githubService))
+        .then(user => githubService.getRepos(user)) // If you don't want bind
+        .then(repos => {
+            uiService.showRepos(repos);
         })
         .catch(error =>{
-           console.warn(error);
+           uiService.clearProfile();
+           console.info(error);
         });
 });
