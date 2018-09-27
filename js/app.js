@@ -9,12 +9,14 @@ searchInput.addEventListener('keyup', e => {
     if(searchText === '') {
         return false;
     }
+    uiService.showLoader();
     githubService.getUser(searchText)
         .then(user => {
             if(user.message === 'Not Found') {
                 console.info('User Not Found');
                 uiService.showAlert(`User ${searchText} Not Found`, ['alert', 'alert-danger']);
                 uiService.clearProfile();
+                uiService.hideLoader();
                 return false;
             }
             uiService.clearAlert();
@@ -26,8 +28,10 @@ searchInput.addEventListener('keyup', e => {
         .then(repos => {
             uiService.showRepos(repos);
         })
+        .then(() => uiService.hideLoader())
         .catch(error =>{
            uiService.clearProfile();
+           uiService.hideLoader();
            console.info(error);
         });
 });

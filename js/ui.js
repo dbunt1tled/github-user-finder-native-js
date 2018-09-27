@@ -1,7 +1,8 @@
 class UI {
     constructor() {
         this.profile = document.getElementById('profile');
-        this.searchContainer = document.querySelector('.searchContainer')
+        this.searchContainer = document.querySelector('.searchContainer');
+        this.loader = document.querySelector('.loader');
     }
     showProfile(user) {
         this.profile.innerHTML = `
@@ -68,5 +69,11 @@ class UI {
     }
     clearProfile() {
         this.profile.innerHTML = '';
+    }
+    showLoader() {
+        this.loader.style.display = 'block';
+    }
+    hideLoader() {
+        setTimeout(() => this.loader.style.display = 'none', 300);
     }
 }
