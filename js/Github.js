@@ -33,4 +33,19 @@ class Github {
                 .catch(error => reject(error));
         });
     }
+
+    async getUserData(name) {
+        const user = await fetch(`${this.baseUrl}/users/${name}${this.addParams}`,{
+            //method: 'GET', // on default
+            headers: this.headers,
+        });
+        const repos = await fetch(`${this.baseUrl}/users/${name}/repos${this.addParams}per_page=${'5'}&sort=${'created:asc'}`,{
+            //method: 'GET', // on default
+            headers: this.headers,
+        });
+        let userData = await user.json();
+        let reposData = await repos.json();
+
+        return { userData, reposData };
+    }
 }

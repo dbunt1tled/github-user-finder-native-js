@@ -10,9 +10,33 @@ searchInput.addEventListener('keyup', e => {
         return false;
     }
     uiService.showLoader();
-    githubService.getUser(searchText)
+    // githubService.getUser(searchText)
+    //     .then(user => {
+    //         if(user.message === 'Not Found') {
+    //             console.info('User Not Found');
+    //             uiService.showAlert(`User ${searchText} Not Found`, ['alert', 'alert-danger']);
+    //             uiService.clearProfile();
+    //             uiService.hideLoader();
+    //             return false;
+    //         }
+    //         uiService.clearAlert();
+    //         uiService.showProfile(user);
+    //         return user.login;
+    //     })
+    //     //.then(githubService.getRepos.bind(githubService))
+    //     .then(user => githubService.getRepos(user)) // If you don't want bind
+    //     .then(repos => {
+    //         uiService.showRepos(repos);
+    //     })
+    //     .then(() => uiService.hideLoader())
+    //     .catch(error =>{
+    //        uiService.clearProfile();
+    //        uiService.hideLoader();
+    //        console.info(error);
+    //     });
+    githubService.getUserData(searchText)
         .then(user => {
-            if(user.message === 'Not Found') {
+            if(user.userData.message === 'Not Found') {
                 console.info('User Not Found');
                 uiService.showAlert(`User ${searchText} Not Found`, ['alert', 'alert-danger']);
                 uiService.clearProfile();
@@ -20,18 +44,14 @@ searchInput.addEventListener('keyup', e => {
                 return false;
             }
             uiService.clearAlert();
-            uiService.showProfile(user);
-            return user.login;
-        })
-        //.then(githubService.getRepos.bind(githubService))
-        .then(user => githubService.getRepos(user)) // If you don't want bind
-        .then(repos => {
-            uiService.showRepos(repos);
+            uiService.showProfile(user.userData);
+            uiService.showRepos(user.reposData);
         })
         .then(() => uiService.hideLoader())
-        .catch(error =>{
-           uiService.clearProfile();
-           uiService.hideLoader();
-           console.info(error);
-        });
+        .catch(er => {
+            uiService.clearProfile();
+            uiService.hideLoader();
+            uiService.showAlert(`You have a problem, maybe wrong request`, ['alert', 'alert-danger']);
+            console.log(er);
+        })
 });
