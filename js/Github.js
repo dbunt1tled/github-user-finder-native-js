@@ -48,4 +48,9 @@ class Github {
 
         return { userData, reposData };
     }
+    async getUserDataAlternative(name) {
+        const user = await this.getUser(name);
+        const repos = await this.getRepos(name);
+        return { 'userData': user, 'reposData': repos };
+    }
 }

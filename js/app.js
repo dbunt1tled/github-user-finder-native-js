@@ -34,7 +34,9 @@ searchInput.addEventListener('keyup', e => {
     //        uiService.hideLoader();
     //        console.info(error);
     //     });
-    githubService.getUserData(searchText)
+
+    //githubService.getUserData(searchText)
+    githubService.getUserDataAlternative(searchText)
         .then(user => {
             if(user.userData.message === 'Not Found') {
                 console.info('User Not Found');
